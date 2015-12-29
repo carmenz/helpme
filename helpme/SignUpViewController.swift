@@ -13,31 +13,61 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var usernamefield: UITextField!
     @IBOutlet weak var passwordfield: UITextField!
     
+    let user = PFUser()
+    
     @IBAction func signup(sender: AnyObject) {
     
-        let user = PFUser()
+       
         user.username = usernamefield.text
         user.password = passwordfield.text
-        
-
-        
-        user.signUpInBackgroundWithBlock { (succeeded, error) -> Void in
-            if succeeded {
-                println("Object Uploaded")
-            } else {
-                println("Error: \(error) \(error!.userInfo!)")
+        if(isvalidaccount(user)){
+            user.signUpInBackgroundWithBlock { (succeeded, error) -> Void in
+                if succeeded {
+                    println("Object Uploaded")
+                    self.performSegueWithIdentifier("unwindtologinview", sender: self)
+                } else {
+                    println("Error: \(error) \(error!.userInfo!)")
+                    let alertController = UIAlertController(title: "Account Already Exist!",
+                    message: "try another", preferredStyle: .Alert)
+                
+                    let OKAction = UIAlertAction(title: "OK", style: .Default) {
+                        (action: UIAlertAction!) in
+                    }
+                
+                    alertController.addAction(OKAction)
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                
+                }
             }
         }
         
     }
     
+    func isvalidaccount(user:PFUser)->Bool{
+        if(count(user.username!)==0 || count(user.password!)==0){
+            showerroralertviewcontroller("both fields must not be empty!")
+            return false
+        }
+        if(count(user.password!)<6){
+            showerroralertviewcontroller("Password must have a minimum length of 6 characters!")
+            return false
+        }
+        return true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        self.view.addGestureRecognizer(tap)
 
         // Do any additional setup after loading the view.
     }
+    
+    func dismissKeyboard() {
+        self.view.endEditing(true)
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -45,14 +75,15 @@ class SignUpViewController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func showerroralertviewcontroller(message:String){
+        let alertController = UIAlertController(title: message,
+            message: "", preferredStyle: .Alert)
+        
+        let OKAction = UIAlertAction(title: "OK", style: .Default) {
+            (action: UIAlertAction!) in
+        }
+        
+        alertController.addAction(OKAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
-    */
-
 }

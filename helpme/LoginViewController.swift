@@ -14,21 +14,70 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var usernamefield: UITextField!
     @IBOutlet weak var passwordfield: UITextField!
     
+    var curruser:PFUser?
+    
     @IBAction func login(sender: AnyObject) {
-        PFUser.logInWithUsernameInBackground(usernamefield.text, password: passwordfield.text) { user, error in
+        PFUser.logInWithUsernameInBackground(usernamefield.text!, password: passwordfield.text!) { user, error in
             if user != nil {
                 print("login successfully")
+                self.curruser = user
+                self.performSegueWithIdentifier("unwindtopostview", sender: self)
             } else if let error = error {
-                //self.showErrorView(error)
+                let alertController = UIAlertController(title: "Invalid Username or Password!",
+                    message: "Try Again", preferredStyle: .Alert)
+                
+                let OKAction = UIAlertAction(title: "OK", style: .Default) {
+                    (action: UIAlertAction!) in
+                }
+                
+                alertController.addAction(OKAction)
+                self.presentViewController(alertController, animated: true, completion: nil)
+
             }
         }
 
         
     }
+    
+    @IBAction func backtologinview(segue:UIStoryboardSegue){
+        if let source = segue.sourceViewController as? SignUpViewController{
+            let curruser = source.user
+            if(curruser.username==nil || curruser.password==nil){
+                return
+            }
+            PFUser.logInWithUsernameInBackground(curruser.username!, password: curruser.password!){user,error in
+                if user != nil {
+                    print("login successfully")
+                    self.curruser = user
+                    self.performSegueWithIdentifier("unwindtopostview", sender: self)
+                } else if let error = error {
+                    let alertController = UIAlertController(title: "Invalid Username or Password!",
+                        message: "Try Again", preferredStyle: .Alert)
+                    
+                    let OKAction = UIAlertAction(title: "OK", style: .Default) {
+                        (action: UIAlertAction!) in
+                    }
+                    
+                    alertController.addAction(OKAction)
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                    
+                }
+            }
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        self.view.addGestureRecognizer(tap)
+        
         // Do any additional setup after loading the view.
+    }
+    
+    func dismissKeyboard() {
+        self.view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
