@@ -9,11 +9,13 @@
 import Foundation
 
 class Post: PFObject, PFSubclassing {
+    @NSManaged var posttitle:String
     @NSManaged var postdescription:String
     @NSManaged var contactnumber:String
     @NSManaged var currlatitude:Double
     @NSManaged var currlongitude:Double
     @NSManaged var user:PFUser
+    @NSManaged var status:String
     
     class func parseClassName() -> String {
         return "Post"
@@ -24,19 +26,23 @@ class Post: PFObject, PFSubclassing {
             self.registerSubclass()
         }
     }
+    
     override class func query() -> PFQuery? {
-        let query = PFQuery(className: Post.parseClassName()) //1
-        query.includeKey("user") //2
-        query.orderByDescending("createdAt") //3
+        let query = PFQuery(className: Post.parseClassName())
+        query.includeKey("user")
+        query.orderByDescending("createdAt")
         return query
     }
-    init(dscp:String,ctcnmb:String,longitude:Double,latitude:Double,user:PFUser){
+    
+    init(ptle:String,dscp:String,ctcnmb:String,longitude:Double,latitude:Double,user:PFUser){
         super.init()
+        self.posttitle = ptle
         self.postdescription = dscp
         self.contactnumber = ctcnmb
         self.currlongitude = longitude
         self.currlatitude = latitude
         self.user = user
+        self.status = "notAccepted"
     }
     override init() {
         super.init()

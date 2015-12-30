@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		47535F0A1C320815005C6FAB /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47535F091C320815005C6FAB /* MenuViewController.swift */; };
+		47522A411C3366C6005FD910 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47522A401C3366C6005FD910 /* PostDetailViewController.swift */; };
+		47522A451C339255005FD910 /* ManageTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47522A441C339255005FD910 /* ManageTableViewController.swift */; };
+		47522A471C339432005FD910 /* ManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47522A461C339432005FD910 /* ManageViewController.swift */; };
 		47535F101C321B84005C6FAB /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47535F0F1C321B84005C6FAB /* SideBar.swift */; };
 		47535F121C321B8C005C6FAB /* SideBarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47535F111C321B8C005C6FAB /* SideBarTableViewController.swift */; };
 		479A830A1C2B642A00A34BB9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479A83091C2B642A00A34BB9 /* AppDelegate.swift */; };
@@ -46,7 +48,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		47535F091C320815005C6FAB /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		47522A401C3366C6005FD910 /* PostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
+		47522A441C339255005FD910 /* ManageTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageTableViewController.swift; sourceTree = "<group>"; };
+		47522A461C339432005FD910 /* ManageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManageViewController.swift; sourceTree = "<group>"; };
 		47535F0F1C321B84005C6FAB /* SideBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
 		47535F111C321B8C005C6FAB /* SideBarTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBarTableViewController.swift; sourceTree = "<group>"; };
 		479A83041C2B642A00A34BB9 /* helpme.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = helpme.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,11 +178,13 @@
 			children = (
 				479A832C1C2B644900A34BB9 /* PostViewController.swift */,
 				479A83321C2B7A2400A34BB9 /* LoginViewController.swift */,
+				47522A401C3366C6005FD910 /* PostDetailViewController.swift */,
 				479A83341C2B810E00A34BB9 /* SignUpViewController.swift */,
 				47CE8B6C1C31C6460000E114 /* AddPostViewController.swift */,
-				47535F091C320815005C6FAB /* MenuViewController.swift */,
+				47522A461C339432005FD910 /* ManageViewController.swift */,
 				47535F111C321B8C005C6FAB /* SideBarTableViewController.swift */,
 				47535F0F1C321B84005C6FAB /* SideBar.swift */,
+				47522A441C339255005FD910 /* ManageTableViewController.swift */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -260,6 +266,7 @@
 				TargetAttributes = {
 					479A83031C2B642A00A34BB9 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = BEX9M2ZJU8;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -321,11 +328,13 @@
 				479A832D1C2B644900A34BB9 /* PostViewController.swift in Sources */,
 				479A830D1C2B642A00A34BB9 /* helpme.xcdatamodeld in Sources */,
 				47CE8B701C31CBA00000E114 /* PostModel.swift in Sources */,
+				47522A471C339432005FD910 /* ManageViewController.swift in Sources */,
 				479A830A1C2B642A00A34BB9 /* AppDelegate.swift in Sources */,
 				47CE8B6D1C31C6460000E114 /* AddPostViewController.swift in Sources */,
+				47522A411C3366C6005FD910 /* PostDetailViewController.swift in Sources */,
 				479A83351C2B810E00A34BB9 /* SignUpViewController.swift in Sources */,
-				47535F0A1C320815005C6FAB /* MenuViewController.swift in Sources */,
 				47535F121C321B8C005C6FAB /* SideBarTableViewController.swift in Sources */,
+				47522A451C339255005FD910 /* ManageTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,6 +462,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -460,6 +471,7 @@
 				INFOPLIST_FILE = helpme/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "helpme/helpme-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -470,6 +482,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -477,6 +491,7 @@
 				INFOPLIST_FILE = helpme/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "helpme/helpme-Bridging-Header.h";
 			};
 			name = Release;

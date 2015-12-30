@@ -96,7 +96,7 @@ class SideBar: NSObject, SideBarTableViewControllerDelegate {
         isSideBarOpen = shouldOpen
         
         let gravityX:CGFloat = (shouldOpen) ? 0.5 : -0.5
-        let magnitude:CGFloat = (shouldOpen) ? 20 : -20
+        let magnitude:CGFloat = (shouldOpen) ? 50 : -50
         let boundaryX:CGFloat = (shouldOpen) ? barWidth : -barWidth - 1
         
         
@@ -114,7 +114,7 @@ class SideBar: NSObject, SideBarTableViewControllerDelegate {
         
         
         let sideBarBehavior:UIDynamicItemBehavior = UIDynamicItemBehavior(items: [sideBarContainerView])
-        sideBarBehavior.elasticity = 0.3
+        sideBarBehavior.elasticity = 0
         animator.addBehavior(sideBarBehavior)
     
     }
@@ -123,26 +123,6 @@ class SideBar: NSObject, SideBarTableViewControllerDelegate {
     func sideBarControlDidSelectRow(indexPath: NSIndexPath) {
         delegate?.sideBarDidSelectButtonAtIndex(indexPath.row)
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     

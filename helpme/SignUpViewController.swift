@@ -27,8 +27,8 @@ class SignUpViewController: UIViewController {
                     self.performSegueWithIdentifier("unwindtologinview", sender: self)
                 } else {
                     println("Error: \(error) \(error!.userInfo!)")
-                    let alertController = UIAlertController(title: "Account Already Exist!",
-                    message: "try another", preferredStyle: .Alert)
+                    let alertController = UIAlertController(title: "Username Already Taken!",
+                    message: "Try Another", preferredStyle: .Alert)
                 
                     let OKAction = UIAlertAction(title: "OK", style: .Default) {
                         (action: UIAlertAction!) in
@@ -45,7 +45,7 @@ class SignUpViewController: UIViewController {
     
     func isvalidaccount(user:PFUser)->Bool{
         if(count(user.username!)==0 || count(user.password!)==0){
-            showerroralertviewcontroller("both fields must not be empty!")
+            showerroralertviewcontroller("All Fields are Required!")
             return false
         }
         if(count(user.password!)<6){

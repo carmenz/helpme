@@ -44,7 +44,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sideBar = SideBar(sourceView: self.view, menuItems: ["Add", "Manage"])
+        sideBar = SideBar(sourceView: self.view, menuItems: ["Profile", "Add", "Manage"])
         sideBar.delegate = self
 
         locationManager.delegate = self
@@ -76,6 +76,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     }
 
     override func viewDidAppear(animated: Bool) {
+        mapView.removeAnnotations(mapView.annotations.filter { $0 !== self.mapView.userLocation })
         self.loadallannotation()
     }
     
@@ -101,7 +102,9 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     
     func addannotationarraytomap(objects:[Post]){
         for singlepost:Post in objects{
-            addAnnotationsOnMap(CLLocation(latitude: singlepost.currlatitude, longitude: singlepost.currlongitude),postdescription: singlepost.postdescription,phonenumber: singlepost.contactnumber)
+            if(singlepost.status=="notAccepted"){
+                addAnnotationsOnMap(CLLocation(latitude: singlepost.currlatitude, longitude: singlepost.currlongitude),posttitle: singlepost.posttitle, postdescription: singlepost.contactnumber)
+            }
         }
     }
     
@@ -109,6 +112,38 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+        println("viewForanotation")
+        if annotation is MKUserLocation {
+            return nil
+        }
+    
+    
+    let reuseId = "pin"
+    var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+        
+    if pinView == nil {
+        pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+        pinView!.canShowCallout = true
+        pinView!.animatesDrop = true
+    }
+    var button = UIButton.buttonWithType(UIButtonType.DetailDisclosure)as! UIButton
+        
+    pinView?.rightCalloutAccessoryView = button
+    
+    return pinView
+    
+    }
+    
+    var selectedannotation:MKAnnotation?
+    
+    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
+        selectedannotation=view.annotation
+        performSegueWithIdentifier("showpostdetailsegue", sender: self)
+    }
+    
+    
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         CLGeocoder().reverseGeocodeLocation(manager.location, completionHandler: {(placemarks, error)->Void in
@@ -140,7 +175,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     }
     
     
-    func addAnnotationsOnMap(locationToPoint:CLLocation,postdescription:String,phonenumber:String){
+    func addAnnotationsOnMap(locationToPoint:CLLocation,posttitle:String, postdescription:String){
         var annotation = MKPointAnnotation()
         annotation.coordinate = locationToPoint.coordinate
         var geoCoder = CLGeocoder()
@@ -149,14 +184,38 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
                 var placemark = placemarks[0]
                 var addressDictionary = placemark.addressDictionary;
                 //annotation.title = addressDictionary["Name"] as? String
-                annotation.title = postdescription+" "+phonenumber
+                annotation.title = posttitle
+                annotation.subtitle = postdescription
                 self.mapView.addAnnotation(annotation)
             }
         })
     }
     
+    
     func sideBarDidSelectButtonAtIndex(index: Int) {
-        if(index == 0){
+        
+        //manage
+        if(index == 2){
+            if(self.curruser != nil){
+                self.storyboard!.instantiateViewControllerWithIdentifier("ManageViewController")
+                self.performSegueWithIdentifier("toManagePost", sender: self)
+            }
+            else{
+                let alertController = UIAlertController(title: "You Need to Login First!",
+                    message: "", preferredStyle: .Alert)
+                
+                let OKAction = UIAlertAction(title: "OK", style: .Default) {
+                    (action: UIAlertAction!) in
+                }
+                
+                alertController.addAction(OKAction)
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
+        }
+
+        
+        //add
+        if(index == 1){
             if(self.curruser != nil){
                 self.storyboard!.instantiateViewControllerWithIdentifier("AddViewController")
                 self.performSegueWithIdentifier("toAddPost", sender: self)
@@ -173,6 +232,9 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
                 self.presentViewController(alertController, animated: true, completion: nil)
             }
         }
+        
+        
+        
     }
     
     
@@ -200,6 +262,12 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
             let popoverViewController = segue.destinationViewController as! LoginViewController
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.Popover
             popoverViewController.popoverPresentationController!.delegate = self
+            
+        }
+        
+        if(segue.identifier == "showpostdetailsegue"){
+            let detailcontroller = segue.destinationViewController as! PostDetailViewController
+            detailcontroller.currnumber = selectedannotation?.subtitle
         }
     }
     
@@ -207,8 +275,14 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         return UIModalPresentationStyle.None
     }
     
+    @IBAction func logout(sender: AnyObject) {
+        if(curruser != nil){
+            self.loginbutton.setTitle("Login", forState: .Normal)
+            self.curruser = nil
+        }
+    }
 
-    
+
     
 
 }

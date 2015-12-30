@@ -67,6 +67,17 @@ class LoginViewController: UIViewController {
         
     }
     
+        override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+            // Get the new view controller using segue.destinationViewController.
+            // Pass the selected object to the new view controller.
+    
+            if(segue.identifier == "signupshowdetail"){
+                let showdetailViewController = segue.destinationViewController as! SignUpViewController
+                showdetailViewController.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
+                showdetailViewController.showDetailViewController(SignUpViewController(), sender: self)
+            }
+        }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
