@@ -76,7 +76,7 @@ class AddPostViewController: UIViewController,CLLocationManagerDelegate {
     
     
     @IBAction func submit(sender: AnyObject) {
-        let post = Post(ptle: titletextfield.text, dscp: descriptiontextfield.text, ctcnmb: contactnumbertextfield.text, longitude: currlongitude!, latitude: currlatitude!,user:user!)
+        let post = Post(ptle: titletextfield.text, dscp: descriptiontextfield.text, ctcnmb: contactnumbertextfield.text, longitude: currlongitude!, latitude: currlatitude!,user:self.user)
         post.saveInBackgroundWithBlock{ succeeded, error in
             if succeeded {
                 //3

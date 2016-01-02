@@ -24,7 +24,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
 
     let locationManager = CLLocationManager()
     var currlocation:CLLocation?
-    var curruser:PFUser?
+    var curruser = PFUser.currentUser()
     
     @IBAction func backtopostview(segue:UIStoryboardSegue){
         if let source = segue.sourceViewController as? LoginViewController{
@@ -43,6 +43,10 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if(curruser == nil){
+            print("not logged in")
+        }
         
         sideBar = SideBar(sourceView: self.view, menuItems: ["Profile", "Add", "Manage"])
         sideBar.delegate = self
@@ -269,7 +273,14 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
             let detailcontroller = segue.destinationViewController as! PostDetailViewController
             detailcontroller.currnumber = selectedannotation?.subtitle
         }
+        
+//        if(segue.identifier == "toManagePost"){
+//            let destinationcontroller = segue.destinationViewController as! ManageViewController
+//            destinationcontroller.
+//        }
     }
+    
+    
     
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.None

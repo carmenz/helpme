@@ -77,6 +77,7 @@ class PostDetailViewController: UIViewController {
         
         if let post = currpost{
             post.status = "inProgress"
+            post.acceptedbyuser = PFUser.currentUser()
             post.saveInBackground()
         }
         

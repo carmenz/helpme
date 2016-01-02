@@ -14,8 +14,9 @@ class Post: PFObject, PFSubclassing {
     @NSManaged var contactnumber:String
     @NSManaged var currlatitude:Double
     @NSManaged var currlongitude:Double
-    @NSManaged var user:PFUser
+    @NSManaged var acceptedbyuser:PFUser?
     @NSManaged var status:String
+    @NSManaged var postedbyuser:PFUser?
     
     class func parseClassName() -> String {
         return "Post"
@@ -36,12 +37,13 @@ class Post: PFObject, PFSubclassing {
     
     init(ptle:String,dscp:String,ctcnmb:String,longitude:Double,latitude:Double,user:PFUser){
         super.init()
+        self.postedbyuser = user
         self.posttitle = ptle
         self.postdescription = dscp
         self.contactnumber = ctcnmb
         self.currlongitude = longitude
         self.currlatitude = latitude
-        self.user = user
+        self.acceptedbyuser = nil
         self.status = "notAccepted"
     }
     override init() {
