@@ -32,6 +32,7 @@
 		479A834C1C2B85C100A34BB9 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 479A834B1C2B85C100A34BB9 /* StoreKit.framework */; };
 		479A834E1C2B85CA00A34BB9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 479A834D1C2B85CA00A34BB9 /* SystemConfiguration.framework */; };
 		479A83501C2B879100A34BB9 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 479A834F1C2B879100A34BB9 /* libsqlite3.dylib */; };
+		47BCA4F11C389A50006FCB3E /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BCA4F01C389A50006FCB3E /* EditPostViewController.swift */; };
 		47CE8B6D1C31C6460000E114 /* AddPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE8B6C1C31C6460000E114 /* AddPostViewController.swift */; };
 		47CE8B701C31CBA00000E114 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE8B6F1C31CBA00000E114 /* PostModel.swift */; };
 /* End PBXBuildFile section */
@@ -77,6 +78,7 @@
 		479A834B1C2B85C100A34BB9 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		479A834D1C2B85CA00A34BB9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		479A834F1C2B879100A34BB9 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		47BCA4F01C389A50006FCB3E /* EditPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 		47CE8B6C1C31C6460000E114 /* AddPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPostViewController.swift; sourceTree = "<group>"; };
 		47CE8B6F1C31CBA00000E114 /* PostModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -181,6 +183,7 @@
 				47CE8B6C1C31C6460000E114 /* AddPostViewController.swift */,
 				47522A461C339432005FD910 /* ManageViewController.swift */,
 				47535F111C321B8C005C6FAB /* SideBarTableViewController.swift */,
+				47BCA4F01C389A50006FCB3E /* EditPostViewController.swift */,
 				47535F0F1C321B84005C6FAB /* SideBar.swift */,
 			);
 			name = ViewController;
@@ -330,6 +333,7 @@
 				47CE8B6D1C31C6460000E114 /* AddPostViewController.swift in Sources */,
 				47522A411C3366C6005FD910 /* PostDetailViewController.swift in Sources */,
 				479A83351C2B810E00A34BB9 /* SignUpViewController.swift in Sources */,
+				47BCA4F11C389A50006FCB3E /* EditPostViewController.swift in Sources */,
 				47535F121C321B8C005C6FAB /* SideBarTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
