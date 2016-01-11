@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, SideBarDelegate,UIPopoverPresentationControllerDelegate,UISearchResultsUpdating{
+class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, SideBarDelegate,UIPopoverPresentationControllerDelegate,UISearchBarDelegate{
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var loginbutton: UIButton!
@@ -102,16 +102,15 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     }
     
     override func viewDidAppear(animated: Bool) {
-        mapView.removeAnnotations(mapView.annotations.filter { $0 !== self.mapView.userLocation })
+        
         self.loadallannotation()
         
         let resultSearchController = UISearchController(searchResultsController: nil)
-        resultSearchController.searchResultsUpdater = self
+        resultSearchController.searchBar.delegate = self
         resultSearchController.dimsBackgroundDuringPresentation = false
         resultSearchController.searchBar.sizeToFit()
         resultSearchController.searchBar.backgroundImage = UIImage()
         resultSearchController.searchBar.frame = self.searchbarview.bounds
-        
         
         
         self.searchbarview.addSubview(resultSearchController.searchBar)
@@ -124,6 +123,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     }
     
     func loadallannotation(){
+        mapView.removeAnnotations(mapView.annotations.filter { $0 !== self.mapView.userLocation })
         let query = Post.query()!
         query.findObjectsInBackgroundWithBlock{ objects,error in
             if error == nil{
@@ -345,10 +345,77 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
 
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.sideBar.showSideBar(false)
+        self.view.endEditing(true)
     }
 
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        print("searchbartextshouldendediting!!\n\n\n")
+        var results:[Post]=[]
+        var query = Post.query()!
+        query.whereKey("posttitle", containsString: searchBar.text)
+        query.findObjectsInBackgroundWithBlock{ objects,error in
+            if error == nil{
+                if let objects = objects as? [Post]{
+                    results = objects
+                }
+            }
+            else if let error = error{
+                print("error:\(error.localizedDescription)")
+            }
+        }
+        query = Post.query()!
+        query.whereKey("postdescription", containsString: searchBar.text)
+        query.findObjectsInBackgroundWithBlock{ objects,error in
+            if error == nil{
+                if let objects = objects as? [Post]{
+                    for post in objects{
+                        results.append(post)
+                    }
+                }
+            }
+            else if let error = error{
+                print("error:\(error.localizedDescription)")
+            }
+        }
+                
+        self.mapView.removeAnnotations(self.mapView.annotations.filter { $0 !== self.mapView.userLocation })
+        self.addannotationarraytomap(results)
     }
+//    func textFieldShouldReturn(textField: UITextField) -> Bool {
+//        var results:[Post]=[]
+//        var query = Post.query()!
+//        query.whereKey("posttitle", containsString: textField.text)
+//        query.findObjectsInBackgroundWithBlock{ objects,error in
+//            if error == nil{
+//                if let objects = objects as? [Post]{
+//                    results = objects
+//                }
+//            }
+//            else if let error = error{
+//                print("error:\(error.localizedDescription)")
+//            }
+//        }
+//        
+//        query = Post.query()!
+//        query.whereKey("postdescription", containsString: textField.text)
+//        query.findObjectsInBackgroundWithBlock{ objects,error in
+//            if error == nil{
+//                if let objects = objects as? [Post]{
+//                    for post in objects{
+//                        results.append(post)
+//                    }
+//                }
+//            }
+//            else if let error = error{
+//                print("error:\(error.localizedDescription)")
+//            }
+//        }
+//        
+//        
+//        self.mapView.removeAnnotations(self.mapView.annotations.filter { $0 !== self.mapView.userLocation })
+//        self.addannotationarraytomap(results)
+//        return true
+//    }
+    
 }
