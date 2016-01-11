@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, SideBarDelegate,UIPopoverPresentationControllerDelegate{
+class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, SideBarDelegate,UIPopoverPresentationControllerDelegate,UISearchResultsUpdating{
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var loginbutton: UIButton!
@@ -24,14 +24,23 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
 
     let locationManager = CLLocationManager()
     var currlocation:CLLocation?
-    var curruser = PFUser.currentUser()
+    var curruser :PFUser?{
+        didSet{
+            if(curruser != nil){
+                sideBar.sideBarTableViewController.tableData=["Profile", "Add", "Manage","Logout","About Us"]
+                self.loginbutton.hidden = true
+            }
+            else{
+                sideBar.sideBarTableViewController.tableData=["About Us"]
+                self.loginbutton.hidden = false
+            }
+            sideBar.sideBarTableViewController.tableView.reloadData()
+        }
+    }
     
     @IBAction func backtopostview(segue:UIStoryboardSegue){
         if let source = segue.sourceViewController as? LoginViewController{
             curruser = source.curruser
-            if(curruser != nil){
-                loginbutton.setTitle("Logout", forState: .Normal)
-            }
         }
     }
     
@@ -41,14 +50,18 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     @IBOutlet weak var addbutton: UIButton!
     var sideBar:SideBar = SideBar()
     
+    @IBOutlet weak var searchbarview: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        self.searchbarview.backgroundColor = UIColor.clearColor()
         
-        if(curruser == nil){
-            print("not logged in")
-        }
+        sideBar = SideBar(sourceView: self.view, menuItems: ["About Us"])
+    
         
-        sideBar = SideBar(sourceView: self.view, menuItems: ["Profile", "Add", "Manage"])
+        curruser = PFUser.currentUser()
+        
         sideBar.delegate = self
 
         locationManager.delegate = self
@@ -79,9 +92,29 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         // Do ""any additional setup after loading the view.
     }
 
+    override func viewWillAppear(animated: Bool) {
+        if(self.curruser != nil){
+            self.loginbutton.hidden = true
+        }
+        else{
+            self.loginbutton.hidden = false
+        }
+    }
+    
     override func viewDidAppear(animated: Bool) {
         mapView.removeAnnotations(mapView.annotations.filter { $0 !== self.mapView.userLocation })
         self.loadallannotation()
+        
+        let resultSearchController = UISearchController(searchResultsController: nil)
+        resultSearchController.searchResultsUpdater = self
+        resultSearchController.dimsBackgroundDuringPresentation = false
+        resultSearchController.searchBar.sizeToFit()
+        resultSearchController.searchBar.backgroundImage = UIImage()
+        resultSearchController.searchBar.frame = self.searchbarview.bounds
+        
+        
+        
+        self.searchbarview.addSubview(resultSearchController.searchBar)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -112,11 +145,7 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         println("viewForanotation")
         if annotation is MKUserLocation {
@@ -144,7 +173,10 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     
     func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
         selectedannotation=view.annotation
-        performSegueWithIdentifier("showpostdetailsegue", sender: self)
+        if(self.curruser != nil){performSegueWithIdentifier("showpostdetailsegue", sender: self)}
+        else{
+            showErrorView("You need to login first")
+        }
     }
     
     
@@ -198,6 +230,15 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     
     func sideBarDidSelectButtonAtIndex(index: Int) {
         
+        if(index == 3){
+            if(self.curruser != nil){
+                PFUser.logOut()
+                print("here")
+                self.curruser = nil
+                sideBar.showSideBar(false)
+            }
+        }
+        
         //manage
         if(index == 2){
             if(self.curruser != nil){
@@ -237,6 +278,14 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
             }
         }
         
+        if(index == 0){
+            if(sideBar.sideBarTableViewController.tableView.cellForRowAtIndexPath(sideBar.sideBarTableViewController.tableView.indexPathForSelectedRow()!)!.textLabel!.text! == "About Us"){
+                print("this is About us")
+            }
+            else{
+                print("this is Profile")
+            }
+        }
         
         
     }
@@ -294,6 +343,12 @@ class PostViewController: UIViewController, MKMapViewDelegate, CLLocationManager
     }
 
 
-    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.sideBar.showSideBar(false)
+    }
 
+    
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        
+    }
 }

@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class AddPostViewController: UIViewController,CLLocationManagerDelegate {
+class AddPostViewController: UIViewController,CLLocationManagerDelegate,UITextFieldDelegate{
     
     var user:PFUser!
     let locationManager = CLLocationManager()
@@ -35,6 +35,10 @@ class AddPostViewController: UIViewController,CLLocationManagerDelegate {
         print(status)
         locationManager.startUpdatingLocation()
         // Do any additional setup after loading the view.
+        
+        descriptiontextfield.delegate = self
+        contactnumbertextfield.delegate = self
+        titletextfield.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -76,23 +80,37 @@ class AddPostViewController: UIViewController,CLLocationManagerDelegate {
     
     
     @IBAction func submit(sender: AnyObject) {
-        let post = Post(ptle: titletextfield.text, dscp: descriptiontextfield.text, ctcnmb: contactnumbertextfield.text, longitude: currlongitude!, latitude: currlatitude!,user:self.user)
-        post.saveInBackgroundWithBlock{ succeeded, error in
-            if succeeded {
-                //3
-                self.performSegueWithIdentifier("submitunwind", sender: self)
-            } else {
-                //4
-                if let errorMessage = error?.userInfo?["error"] as? String {
-                    print("error uploading")
+        if(titletextfield.text != "" && descriptiontextfield.text != "" && contactnumbertextfield.text != ""){
+            let post = Post(ptle: titletextfield.text, dscp: descriptiontextfield.text, ctcnmb: contactnumbertextfield.text, longitude: currlongitude!, latitude: currlatitude!,user:self.user)
+            post.saveInBackgroundWithBlock{ succeeded, error in
+                if succeeded {
+                    //3
+                    self.performSegueWithIdentifier("submitunwind", sender: self)
+                } else {
+                    //4
+                    if let errorMessage = error?.userInfo?["error"] as? String {
+                        print("error uploading")
+                    }
                 }
             }
+        }
+        else{
+            self.showErrorView("All Fields Cannot be Empty")
         }
         
     }
 
     @IBAction func Cancel(sender: AnyObject) {
         self.performSegueWithIdentifier("submitunwind", sender: self)
+    }
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.submit(self)
+        return true
     }
     /*
     // MARK: - Navigation

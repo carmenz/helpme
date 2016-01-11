@@ -144,34 +144,23 @@ class ManageViewController: UIViewController,UITableViewDelegate,UITableViewData
     func updatePostings(){
         if let user = curruser {
             let query1 = PFQuery(className: "Post")
-            let query2 = PFQuery(className: "Post")
-            let query0 = PFQuery(className: "Post")
             query1.whereKey("acceptedbyuser", equalTo: user)
-            query2.whereKey("status", equalTo: "inProgress")
-            let Posts1 = query1.findObjects() as? [Post] ?? []
-            let Posts2 = query2.findObjects() as? [Post] ?? []
-            for post1 in Posts1{
-                for post2 in Posts2{
-                    Pendingjobs = 
-                }
-            }
-            
-            
-            print("Number of pending jobs: \(Pendingjobs?.count)")
-            
+            query1.whereKey("status", equalTo: "inProgress")
+            Pendingjobs = query1.findObjects() as? [Post] ?? []
+        
             let query3 = PFQuery(className: "Post")
-            let query4 = PFQuery(className: "Post")
             query3.whereKey("postedbyuser", equalTo: user)
-            query4.whereKey("status", doesNotMatchKey: "Complete", inQuery: query3)
-            Listposts = query4.findObjects() as? [Post] ?? []
-            
+            query3.whereKey("status", notEqualTo: "Complete")
+            Listposts = query3.findObjects() as? [Post] ?? []
             
             let query5 = PFQuery(className: "Post")
-            query5.whereKey("status", matchesKey: "Complete", inQuery: query1)
+            query5.whereKey("acceptedbyuser", equalTo: user)
+            query5.whereKey("status", equalTo: "Complete")
             AcceptedJobs = query5.findObjects() as? [Post] ?? []
             
             let query6 = PFQuery(className: "Post")
-            query6.whereKey("status", matchesKey: "Complete", inQuery: query3)
+            query6.whereKey("postedbyuser", equalTo: user)
+            query6.whereKey("status", equalTo: "Complete")
             AcceptedPosts = query6.findObjects() as? [Post] ?? []
             
         }

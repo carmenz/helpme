@@ -35,6 +35,10 @@
 		47BCA4F11C389A50006FCB3E /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47BCA4F01C389A50006FCB3E /* EditPostViewController.swift */; };
 		47CE8B6D1C31C6460000E114 /* AddPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE8B6C1C31C6460000E114 /* AddPostViewController.swift */; };
 		47CE8B701C31CBA00000E114 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE8B6F1C31CBA00000E114 /* PostModel.swift */; };
+		47CE9F781C43147900D4D696 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CE9F771C43147900D4D696 /* UIViewControllerExtension.swift */; };
+		47F0D80A1C4319DD00294ADD /* AcceptedJobViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F0D8091C4319DD00294ADD /* AcceptedJobViewController.swift */; };
+		47F0D80C1C431A2800294ADD /* blackbackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 47F0D80B1C431A2800294ADD /* blackbackground.jpg */; };
+		47F0D80E1C431AC900294ADD /* PendingJobViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F0D80D1C431AC900294ADD /* PendingJobViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +85,10 @@
 		47BCA4F01C389A50006FCB3E /* EditPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 		47CE8B6C1C31C6460000E114 /* AddPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPostViewController.swift; sourceTree = "<group>"; };
 		47CE8B6F1C31CBA00000E114 /* PostModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		47CE9F771C43147900D4D696 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		47F0D8091C4319DD00294ADD /* AcceptedJobViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptedJobViewController.swift; sourceTree = "<group>"; };
+		47F0D80B1C431A2800294ADD /* blackbackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = blackbackground.jpg; sourceTree = "<group>"; };
+		47F0D80D1C431AC900294ADD /* PendingJobViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PendingJobViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +159,8 @@
 		479A83071C2B642A00A34BB9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				47F0D80B1C431A2800294ADD /* blackbackground.jpg */,
+				47CE9F771C43147900D4D696 /* UIViewControllerExtension.swift */,
 				479A83081C2B642A00A34BB9 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -180,6 +190,8 @@
 				479A83321C2B7A2400A34BB9 /* LoginViewController.swift */,
 				47522A401C3366C6005FD910 /* PostDetailViewController.swift */,
 				479A83341C2B810E00A34BB9 /* SignUpViewController.swift */,
+				47F0D80D1C431AC900294ADD /* PendingJobViewController.swift */,
+				47F0D8091C4319DD00294ADD /* AcceptedJobViewController.swift */,
 				47CE8B6C1C31C6460000E114 /* AddPostViewController.swift */,
 				47522A461C339432005FD910 /* ManageViewController.swift */,
 				47535F111C321B8C005C6FAB /* SideBarTableViewController.swift */,
@@ -305,6 +317,7 @@
 			files = (
 				479A83121C2B642A00A34BB9 /* Main.storyboard in Resources */,
 				479A83171C2B642A00A34BB9 /* LaunchScreen.xib in Resources */,
+				47F0D80C1C431A2800294ADD /* blackbackground.jpg in Resources */,
 				479A83141C2B642A00A34BB9 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,8 +343,11 @@
 				47CE8B701C31CBA00000E114 /* PostModel.swift in Sources */,
 				47522A471C339432005FD910 /* ManageViewController.swift in Sources */,
 				479A830A1C2B642A00A34BB9 /* AppDelegate.swift in Sources */,
+				47F0D80E1C431AC900294ADD /* PendingJobViewController.swift in Sources */,
 				47CE8B6D1C31C6460000E114 /* AddPostViewController.swift in Sources */,
 				47522A411C3366C6005FD910 /* PostDetailViewController.swift in Sources */,
+				47F0D80A1C4319DD00294ADD /* AcceptedJobViewController.swift in Sources */,
+				47CE9F781C43147900D4D696 /* UIViewControllerExtension.swift in Sources */,
 				479A83351C2B810E00A34BB9 /* SignUpViewController.swift in Sources */,
 				47BCA4F11C389A50006FCB3E /* EditPostViewController.swift in Sources */,
 				47535F121C321B8C005C6FAB /* SideBarTableViewController.swift in Sources */,
